@@ -1,0 +1,14 @@
+﻿*.exe
+*.o
+*.out
+*.obj
+.vs/
+bin/
+obj/
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.toc
+*.xdv
+*.synctex.gz
