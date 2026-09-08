@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"/home/bar/projects/whater/colledge/skillofcoding/mock2/D.cpp","tests":[{"id":1778305035048,"input":"3 10\nAND 5\nOR 6\nXOR 7","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/bar/projects/whater/colledge/skillofcoding/mock2/D.cpp","group":"local","local":true}

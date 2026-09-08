@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"c:\\Users\\Bar\\Documents\\homework\\whater\\colledge\\codeforce\\A.cpp","tests":[{"id":1777387918020,"input":"3\n5\n1 2 1 2 3\n3\n3 2 1\n4\n1 1 1 1\n","output":"7\n6\n1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Bar\\Documents\\homework\\whater\\colledge\\codeforce\\A.cpp","group":"local","local":true}

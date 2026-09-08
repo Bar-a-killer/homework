@@ -1,0 +1,1 @@
+{"name":"Local: f","url":"f:\\algo\\skillofcoding\\graph\\f.cpp","tests":[{"id":1773923684432,"input":"4 5\n1 2\n2 4\n1 3\n3 4\n1 4\n","output":"3\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\algo\\skillofcoding\\graph\\f.cpp","group":"local","local":true}

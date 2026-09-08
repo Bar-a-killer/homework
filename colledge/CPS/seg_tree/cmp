@@ -1,0 +1,24 @@
+#!/bin/bash
+g++ brute.cpp -o brute
+g++ G.cpp -o your
+
+for i in $(seq 1 1000); do
+    python3 gen.py $i > inp.txt
+    out1=$(./brute < inp.txt)
+    out2=$(./your < inp.txt)
+    
+    r1=$(echo "$out1" | head -1)
+    r2=$(echo "$out2" | head -1)
+    
+    if [ "$r1" != "$r2" ]; then
+        echo "DIFF on case $i"
+        echo "=== input ==="
+        cat inp.txt
+        echo "=== brute ==="
+        echo "$out1"
+        echo "=== your ==="
+        echo "$out2"
+        exit 1
+    fi
+done
+echo "ALL OK"
