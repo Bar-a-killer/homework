@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Schedule</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--text);
+        }
+        .container {
+            width: 360px;
+            height: 376px;
+            background: var(--card-bg);
+            padding: 10px 10px 10px 4px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 2px;
+            table-layout: fixed;
+        }
+        th {
+            font-size: 12px;
+            padding-bottom: 4px;
+            color: #686363;
+        }
+        td {
+            height: 38px;
+            border-radius: 6px;
+            text-align: center;
+            vertical-align: middle;
+            padding: 2px;
+            word-break: break-all;
+            line-height: 1.1;
+        }
+        .course-name { font-size: 11px; display: block; font-weight: bold; }
+        .room-name { font-size: 9px; display: block; opacity: 0.8; margin-top: 1px; font-weight: normal; }
+
+        .cs-core { background-color: #e3f2fd; color: #1565c0; }
+        .general { background-color: #f3e5f5; color: #7b1fa2; }
+        .sport { background-color: #e8f5e9; color: #2e7d32; }
+        .empty { background-color: #fafafa; color: #ccc; }
+        
+        .time-label {
+            font-size: 9px;
+            color: #bbb;
+            text-align: right;
+            padding-right: 4px;
+            width: 35px;
+        }
+        .break {
+            height: 14px;
+            color: #eee;
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 38px;"></th>
+                <th>一</th>
+                <th>二</th>
+                <th>三</th>
+                <th>四</th>
+                <th>五</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="time-label">08:20</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+                <td class="sport" rowspan="2"><span class="course-name">海洋環境</span><span class="room-name">BOH403</span></td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+            <tr>
+                <td class="time-label">09:20</td>
+                <td class="cs-core" rowspan="3"><span class="course-name">ASP.NET</span><span class="room-name">INS203</span></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">電腦網路</span><span class="room-name">INS101</span></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">演算法</span><span class="room-name">INS101</span></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">程式設計</span><span class="room-name">INS101</span></td>
+            </tr>
+            <tr>
+                <td class="time-label">10:20</td>
+                <td class="sport" rowspan="2"><span class="course-name">桌球(初)</span><span class="room-name">GYM101</span></td>
+            </tr>
+            <tr>
+                <td class="time-label">11:15</td>
+            </tr>
+            <tr>
+                <td class="time-label break">12:10</td>
+                <td colspan="5" class="break">———— LUNCH ————</td>
+            </tr>
+            <tr>
+                <td class="time-label">13:10</td>
+                <td class="empty"></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">線性代數</span><span class="room-name">INS105</span></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">數位邏輯</span><span class="room-name">ECG610</span></td>
+                <td class="general" rowspan="2"><span class="course-name">刑法概要</span><span class="room-name">BOH403</span></td>
+                <td class="cs-core" rowspan="3"><span class="course-name">程式設計</span><span class="room-name">ECG610</span></td>
+            </tr>
+            <tr>
+                <td class="time-label">14:10</td>
+                <td class="empty"></td>
+            </tr>
+            <tr>
+                <td class="time-label">15:10</td>
+                <td class="empty"></td>
+                <td class="empty"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

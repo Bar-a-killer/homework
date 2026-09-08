@@ -1,0 +1,177 @@
+body {
+    background-color: lightblue;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+h1 {
+    color: brown;
+    text-align: center;
+    margin-top: 50px;
+}
+.schoolnum {
+    color: yellow;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+/* Container for the story card */
+.pokemon-story {
+    background-color: #f0f8ff; /* light blue-ish background */
+    border: 2px solid #ccc;    /* subtle border */
+    border-radius: 10px;       /* rounded corners */
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;         /* center horizontally */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Header with title and icons */
+.pokemon-story__header {
+    display: flex;
+    justify-content: space-between; /* title on left, icons on right */
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Title */
+.pokemon-story__title {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Icon wrapper */
+.pokemon-story__icon-wrapper {
+    display: flex;
+    gap: 5px; /* space between icons */
+}
+
+/* Each icon */
+.pokemon-story__icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Body text */
+.pokemon-story__body {
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Optional: adjust font sizes */
+.size-20 {
+    font-size: 20px;
+}
+
+.size-14 {
+    font-size: 14px;
+}
+
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Removes double borders */
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Header row */
+th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Table cells */
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Zebra striping for rows */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect */
+tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* Optional: Highlight specific types */
+td:nth-child(2) {
+    font-weight: bold;
+    color: #0277bd;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  .search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid #0277bd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 8px 12px;
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  button:hover {
+    background-color: #0277bd;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  li span {
+    flex: 1;
+  }
+
+  li button {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+
+  .edit-input {
+    padding: 4px;
+    font-size: 0.9rem;
+    border: 1px solid #999;
+    border-radius: 3px;
+  }

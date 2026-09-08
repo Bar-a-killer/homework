@@ -1,0 +1,60 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001d7129edeb0 .scope module, "helloworld_td" "helloworld_td" 2 2;
+ .timescale -9 -9;
+v000001d7129ee1d0_0 .var "ain", 0 0;
+v000001d7129ee270_0 .var "bin", 0 0;
+v000001d7129ed330_0 .net "yout", 0 0, L_000001d7129ea810;  1 drivers
+S_000001d7129ee040 .scope module, "uut" "helloworld" 2 7, 3 1 0, S_000001d7129edeb0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "a";
+    .port_info 1 /INPUT 1 "b";
+    .port_info 2 /OUTPUT 1 "y";
+L_000001d7129ea810 .functor AND 1, v000001d7129ee1d0_0, v000001d7129ee270_0, C4<1>, C4<1>;
+v000001d712ad2cd0_0 .net "a", 0 0, v000001d7129ee1d0_0;  1 drivers
+v000001d712ad2ef0_0 .net "b", 0 0, v000001d7129ee270_0;  1 drivers
+v000001d7129ea770_0 .net "y", 0 0, L_000001d7129ea810;  alias, 1 drivers
+    .scope S_000001d7129edeb0;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001d7129ee1d0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001d7129ee270_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001d7129ee1d0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000001d7129ee270_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000001d7129ee1d0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001d7129ee270_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000001d7129ee1d0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000001d7129ee270_0, 0, 1;
+    %delay 10, 0;
+    %vpi_call 2 22 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_000001d7129edeb0;
+T_1 ;
+    %vpi_call 2 26 "$dumpfile", "helloworld_td.vcd" {0 0 0};
+    %vpi_call 2 27 "$dumpvars", 32'sb00000000000000000000000000000000, S_000001d7129edeb0 {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "helloworld_td.v";
+    "helloworld.v";

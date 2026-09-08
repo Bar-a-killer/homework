@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>課表</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Noto Sans TC", sans-serif;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 16px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    th, td {
+      border: 1px solid #4b5563;
+      padding: 6px 10px;
+      text-align: center;
+      font-size: 14px;
+      vertical-align: top;
+      white-space: pre-line; /* ★ 允許換行，不會炸格子 */
+      line-height: 1.35;
+    }
+
+    th {
+      background: #1f2937;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background: #0f172a;
+    }
+
+    tr:nth-child(odd) td {
+      background: #020617;
+    }
+
+    .period {
+      width: 40px;
+      font-weight: 600;
+      background: #0b1120 !important;
+    }
+  </style>
+</head>
+<body>
+
+<table>
+  <thead>
+    <tr>
+      <th class="period">節次</th>
+      <th>星期一</th>
+      <th>星期二</th>
+      <th>星期三</th>
+      <th>星期四</th>
+      <th>星期五</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td class="period">1</td>
+      <td>桌球(初) B92A5G10 A</td>
+      <td></td>
+      <td>桌球(初) B92G5G10 G<br>海洋環境體驗【科技創新】B9M013TG A</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td class="period">2</td>
+      <td>桌球(初) B92A5G10 A<br>ASP.NET B57021EB A</td>
+      <td>電腦網路 B5702P36 A</td>
+      <td>桌球(初) B92G5G10 G<br>海洋環境體驗【科技創新】A</td>
+      <td>演算法 B5702P98 A</td>
+      <td>程式設計(二) B5701M3J A</td>
+    </tr>
+
+    <tr>
+      <td class="period">3</td>
+      <td>ASP.NET B57021EB A<br>桌球(初) B92B5G10 B</td>
+      <td>電腦網路 B5702P36 A</td>
+      <td>桌球(初) B92H5G10 H</td>
+      <td>演算法 B5702P98 A</td>
+      <td>程式設計(二) B5701M3J A</td>
+    </tr>
+
+    <tr>
+      <td class="period">4</td>
+      <td>ASP.NET B57021EB A<br>桌球(初) B92B5G10 B</td>
+      <td>電腦網路 B5702P36 A</td>
+      <td>桌球(初) B92H5G10 H</td>
+      <td>演算法 B5702P98 A</td>
+      <td>程式設計(二) B5701M3J A</td>
+    </tr>
+
+    <tr>
+      <td class="period">5</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td class="period">6</td>
+      <td>桌球(初) B92C5G10 C</td>
+      <td>線性代數 B5702S60 A</td>
+      <td>JAVA B5702009 A</td>
+      <td>刑法概要 A<br>藝術創作 B9M01ZGJ A<br>永續生活 B9M01ZGS A</td>
+      <td>程式設計(二)實習 B570132V A</td>
+    </tr>
+
+    <tr>
+      <td class="period">7</td>
+      <td>桌球(初) B92C5G10 C</td>
+      <td>線性代數 B5702S60 A</td>
+      <td>JAVA B5702009 A</td>
+      <td>刑法概要 A<br>藝術創作 B9M01ZGJ A<br>永續生活 B9M01ZGS A</td>
+      <td>程式設計(二)實習 B570132V A</td>
+    </tr>
+
+    <tr>
+      <td class="period">8</td>
+      <td></td>
+      <td>線性代數 B5702S60 A</td>
+      <td>JAVA B5702009 A</td>
+      <td></td>
+      <td>程式設計(二)實習 B570132V A</td>
+    </tr>
+  </tbody>
+
+</table>
+
+</body>
+</html>
