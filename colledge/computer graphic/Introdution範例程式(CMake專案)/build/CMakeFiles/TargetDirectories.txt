@@ -1,0 +1,9 @@
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/draw.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/blend.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/menu.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/mouse_key.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/pix_rw_sample.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/simple.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/single_double_buffer.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,10 @@
+^C:\USERS\BAR\DOCUMENTS\HOMEWORK\COLLEDGE\COMPUTER GRAPHIC\INTRODUTION範例程式(CMAKE專案)\INTRODUTION範例程式(CMAKE專案)\CG1101_SAMPLECODE\CMAKELISTS.TXT
+setlocal
+C:\Strawberry\c\bin\cmake.exe "-SC:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/Introdution範例程式(CMake專案)/CG1101_SampleCode" "-BC:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build" --check-stamp-file "C:/Users/Bar/Documents/homework/colledge/computer graphic/Introdution範例程式(CMake專案)/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
