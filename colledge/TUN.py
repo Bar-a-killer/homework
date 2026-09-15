@@ -7,7 +7,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 
-# 註冊中文字體
+# 註冊中文字體YA
 pdfmetrics.registerFont(TTFont('NotoSans', '/tmp/NotoSansTC.ttf'))
 pdfmetrics.registerFont(TTFont('NotoSansBold', '/tmp/NotoSansTC.ttf'))
 
