@@ -12,3 +12,26 @@ obj/
 *.toc
 *.xdv
 *.synctex.gz
+
+# CMake / Visual Studio build output
+build/
+out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.pdb
+*.ilk
+*.tlog
+*.lib
+*.exp
+
+# Editor swap / temp files
+*.swp
+*.swo
+*~
