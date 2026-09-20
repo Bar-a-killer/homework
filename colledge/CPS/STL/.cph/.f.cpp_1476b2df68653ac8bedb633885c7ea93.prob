@@ -1,0 +1,1 @@
+{"name":"Local: f","url":"c:\\Users\\Bar\\Documents\\homework\\colledge\\CPS\\STL\\f.cpp","tests":[{"id":1789700612916,"input":"4\nabba\nabacaba\nbcd\ner\n","output":"abacabaabbabcder\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Bar\\Documents\\homework\\colledge\\CPS\\STL\\f.cpp","group":"local","local":true}
