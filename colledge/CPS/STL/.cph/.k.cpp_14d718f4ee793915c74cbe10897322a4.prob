@@ -1,0 +1,1 @@
+{"name":"Local: k","url":"c:\\Users\\Bar\\Documents\\homework\\colledge\\CPS\\STL\\k.cpp","tests":[{"id":1789955967142,"input":"8 3\n2 4 3 5 8 1 2 1\n","output":"3 4 5 5 2 1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Bar\\Documents\\homework\\colledge\\CPS\\STL\\k.cpp","group":"local","local":true}
