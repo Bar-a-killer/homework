@@ -57,6 +57,7 @@ set(Examples
     "pix_rw_sample"
     "simple"
     "single_double_buffer"
+    "handout"
 )
 
 foreach(ex IN LISTS Examples)
