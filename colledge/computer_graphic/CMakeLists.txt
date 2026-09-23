@@ -9,7 +9,9 @@ project("1101 CG Sample Code"
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
-
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 #[[
 Define Compiler Flags
 
@@ -64,7 +66,11 @@ foreach(ex IN LISTS Examples)
     message(STATUS "Configuring ${ex}...")
 
     add_executable(${ex})
-    target_sources(${ex} PRIVATE "${ex}.c")
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${ex}.cpp")
+        target_sources(${ex} PRIVATE "${ex}.cpp")
+    else()
+        target_sources(${ex} PRIVATE "${ex}.c")
+    endif()
     target_link_libraries(${ex} PRIVATE GLUT::GLUT)
 
     if (CMAKE_SYSTEM_NAME STREQUAL "Linux")

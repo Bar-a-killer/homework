@@ -25,7 +25,7 @@ void display(void)
 //Callback for the IDLE event
 void spinDisplay (void)
 {
-    spin = spin + 2.0;
+    spin = spin + 0.005;
     if (spin > 360.0)
 	spin = spin - 360.0;
     display();

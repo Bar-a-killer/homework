@@ -15,6 +15,7 @@ obj/
 
 # CMake / Visual Studio build output
 build/
+build-*/
 out/
 CMakeFiles/
 CMakeCache.txt
