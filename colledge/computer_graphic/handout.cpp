@@ -8,9 +8,11 @@
 #define  SIZEX 1500
 #define  SIZEY 1000
 
+int top_m, color_m, file_m, type_m, size_m;
 int hight=1024, width=1024;
 int mode = 0;
-/*
+int premode = 1;
+/*******************
    0 idle mode
    1 draw mode
    2 line mode
@@ -18,12 +20,11 @@ int mode = 0;
    4 polygon mode
    5 text mode
    6 67 mode
-   */
-int premode = 1;
+********************/
 int startposX = 0,startposY = 0;
 int thickness = 1;
 bool fullfilled = 0;
-int color = 0; //rgb
+float color_[3] = {0}; //rgb
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -33,6 +34,52 @@ void display(void) {
 void keyboard(unsigned char key, int x, int y) {
     if(key=='Q' || key=='q') exit(0);
 }
+
+void reshape_(int width, int hight) {
+
+}
+
+void mouse_func(int button, int state, int x, int y) {
+
+}
+
+void motion_func(int x, int y) {
+
+}
+
+void color_func(int value) {
+    switch(value) {
+        case 0:
+            color_[0] = color_[1] = color_[2] = 1.0;
+            break; 
+        case 1:
+            color_[0] = 1.0;color_[1] = color_[2] = 0;
+            break;
+        case 2:
+            color_[0] = 0;color_[1] = 1.0;color_[2] = 0;
+            break;
+        case 3:
+            color_[0] = color_[1] = 0;color_[2] = 1.0;
+            break;
+    }
+}
+
+void file_func(int value) {
+
+}
+
+void draw_type(int value) {
+
+}
+
+void size_func(int value) {
+
+}
+
+void top_menu_func(int value) {
+
+}
+
 int main(int argc, char **argv) {
     //default 
     glutInit(&argc, argv);
@@ -47,40 +94,40 @@ int main(int argc, char **argv) {
     glutDisplayFunc(display);
 
     //hierarchial menux
-    glutReshapeFunc(my_reshape); 
+    glutReshapeFunc(reshape_); 
     glutKeyboardFunc(keyboard);
     glutMouseFunc(mouse_func); 
     glutMotionFunc(motion_func);
 
     color_m = glutCreateMenu(color_func);
-    glutAddMenuEntry("white", WHITE);
-    glutAddMenuEntry("red", RED);
-    glutAddMenuEntry("green", GREEN);
-    glutAddMenuEntry("blue", BLUE);
+    glutAddMenuEntry("white", 0);
+    glutAddMenuEntry("red"  , 1);
+    glutAddMenuEntry("green", 2);
+    glutAddMenuEntry("blue" , 3);
 
     file_m = glutCreateMenu(file_func);
-    glutAddMenuEntry("save", MY_SAVE);
-    glutAddMenuEntry("load", MY_LOAD);
-    glutAddMenuEntry("blend", MY_BLEND);
-    glutAddMenuEntry("clear", MY_CLEAR);
-    glutAddMenuEntry("quit", MY_QUIT);
+    glutAddMenuEntry("save" ,0);
+    glutAddMenuEntry("load" ,1);
+    glutAddMenuEntry("blend",2);
+    glutAddMenuEntry("clear",3);
+    glutAddMenuEntry("quit" ,4);
 
     type_m = glutCreateMenu(draw_type);  
-    glutAddMenuEntry("Point", POINT);
-    glutAddMenuEntry("Line", LINE);
-    glutAddMenuEntry("Poly", POLYGON);
-    glutAddMenuEntry("Curve", CURVE);
-    glutAddMenuEntry("Circle", CIRCLE);
+    glutAddMenuEntry("Point" , 0);
+    glutAddMenuEntry("Line"  , 1);
+    glutAddMenuEntry("Poly"  , 2);
+    glutAddMenuEntry("Curve" , 3);
+    glutAddMenuEntry("Circle", 4);
 
-    size_menu = glutCreateMenu(size_func);
-    glutAddMenuEntry("Bigger", 1);
+    size_m = glutCreateMenu(size_func);
+    glutAddMenuEntry("Bigger" ,1);
     glutAddMenuEntry("Smaller",2);
 
     top_m = glutCreateMenu(top_menu_func);
-    glutAddSubMenu("colors", color_m);
-    glutAddSubMenu("type", type_m);
-    glutAddSubMenu("Size", size_menu);
-    glutAddSubMenu("file", file_m); 
+    glutAddSubMenu("colors",color_m);
+    glutAddSubMenu("type"  , type_m);
+    glutAddSubMenu("Size"  , size_m);
+    glutAddSubMenu("file"  , file_m); 
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 
     //end
