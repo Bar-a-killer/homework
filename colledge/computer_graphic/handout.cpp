@@ -69,16 +69,12 @@ void file_func(int value) {
 }
 
 void draw_type(int value) {
-
+    premode = value;
 }
-
 void size_func(int value) {
-
+    thickness = value;
 }
-
-void top_menu_func(int value) {
-
-}
+void top_menu_func(int value) {}
 
 int main(int argc, char **argv) {
     //default 
@@ -113,18 +109,20 @@ int main(int argc, char **argv) {
     glutAddMenuEntry("quit" ,4);
 
     type_m = glutCreateMenu(draw_type);  
-    glutAddMenuEntry("Point" , 0);
-    glutAddMenuEntry("Line"  , 1);
-    glutAddMenuEntry("Poly"  , 2);
-    glutAddMenuEntry("Curve" , 3);
-    glutAddMenuEntry("Circle", 4);
+    glutAddMenuEntry("Draw"   , 1);
+    glutAddMenuEntry("Line"   , 2);
+    glutAddMenuEntry("Circle" , 3);
+    glutAddMenuEntry("Polygon", 4);
+    glutAddMenuEntry("Text"   , 5);
+    glutAddMenuEntry("67"     , 6);
 
     size_m = glutCreateMenu(size_func);
-    glutAddMenuEntry("Bigger" ,1);
-    glutAddMenuEntry("Smaller",2);
+    for(int i = 0;i < 40;i++) {
+        glutAddMenuEntry("0"+i ,i);
+    }
 
     top_m = glutCreateMenu(top_menu_func);
-    glutAddSubMenu("colors",color_m);
+    glutAddSubMenu("colors", color_m);
     glutAddSubMenu("type"  , type_m);
     glutAddSubMenu("Size"  , size_m);
     glutAddSubMenu("file"  , file_m); 
