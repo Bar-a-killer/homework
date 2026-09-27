@@ -8,9 +8,11 @@
 #define  SIZEX 1500
 #define  SIZEY 1000
 
+
 int top_m, color_m, file_m, type_m, size_m;
 int hight=1024, width=1024;
 int mode = 0;
+int uiY = 100,uiX = width;
 int premode = 1;
 /*******************
    0 idle mode
@@ -22,9 +24,10 @@ int premode = 1;
    6 67 mode
 ********************/
 int startposX = 0,startposY = 0;
-int thickness = 1;
+float thickness = 8;
 bool fullfilled = 0;
 float color_[3] = {0}; //rgb
+vector<pair<int,int> > _67s;
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -35,12 +38,50 @@ void keyboard(unsigned char key, int x, int y) {
     if(key=='Q' || key=='q') exit(0);
 }
 
-void reshape_(int width, int hight) {
-
+void reshape_(int new_width, int new_hight) {
+    uiX = new_width;
 }
 
 void mouse_func(int button, int state, int x, int y) {
-
+    if(button != GLUT_LEFT_BUTTON) return;
+    if(state == GLUT_DOWN) {
+        mode = premode;
+        startposX = x;
+        startposY = y;
+    } else {
+        mode = 0;
+        switch(value) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                //drawline
+                glColor3f(color_[0],color_[1],color_[2],color_[3]);
+                glBegin(GL_LINES);
+                    glVertex2f(startposX,startposY);
+                    glVertex2f(x,y);
+                glBegin(GL_LINES);
+                break;
+            case 3:
+                int r_out = abs(startposY-y);
+                int r_in = r_out - 2*thickness;
+                if(r_in <= 0) r_in = 0;
+                int midx = abs(startposX-x);
+                int midy = abs(startposY-y);
+                //drawcircle
+                break;
+            case 4:
+                //drawpoly
+                break;
+            case 5:
+                //texting
+                break;
+            case 6:
+                _67s.push_back(make_pair(x,y));
+                break;
+        }
+    }
 }
 
 void motion_func(int x, int y) {
@@ -74,12 +115,27 @@ void draw_type(int value) {
 void size_func(int value) {
     thickness = value;
 }
+
+bool highlow_67 = 0;
+int six_high = 0,seven_high = 0;
+void timer(int) {
+    if(six_high >= 20) highlow_67 = !highlow_67;
+    if(highlow_67) {
+        six_high--;
+        seven_high++;
+    } else {
+        six_high++;
+        seven_high--;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(16, timer, 0);
+}
 void top_menu_func(int value) {}
 
 int main(int argc, char **argv) {
     //default 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(0, 0);    
     glutInitWindowSize(width, hight);
     glutCreateWindow("handout");
@@ -127,7 +183,8 @@ int main(int argc, char **argv) {
     glutAddSubMenu("Size"  , size_m);
     glutAddSubMenu("file"  , file_m); 
     glutAttachMenu(GLUT_RIGHT_BUTTON);
-
+    
+    glutTimerFunc(16, timer, 0);
     //end
     glutMainLoop();
     return 0;
