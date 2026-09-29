@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include <string>
+#include <utility>
+#include <vector>
+#include <algorithm>
 #include <GL/freeglut.h>
 
 
-#define  SIZEX 1500
+#define  SIZEX 1000
 #define  SIZEY 1000
 
 
@@ -26,8 +29,8 @@ int premode = 1;
 int startposX = 0,startposY = 0;
 float thickness = 8;
 bool fullfilled = 0;
-float color_[3] = {0}; //rgb
-vector<pair<int,int> > _67s;
+float color_[3] = {1.0f,1.0f,1.0f}; //rgb
+std::vector<std::pair<int,int> > _67s;
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -49,28 +52,33 @@ void mouse_func(int button, int state, int x, int y) {
         startposX = x;
         startposY = y;
     } else {
-        mode = 0;
-        switch(value) {
+        switch(mode) {
             case 0:
                 break;
             case 1:
                 break;
             case 2:
                 //drawline
-                glColor3f(color_[0],color_[1],color_[2],color_[3]);
+                glColor3f(color_[0],color_[1],color_[2]);
                 glBegin(GL_LINES);
                     glVertex2f(startposX,startposY);
                     glVertex2f(x,y);
-                glBegin(GL_LINES);
+                glEnd(GL_LINES);
                 break;
-            case 3:
+            case 3: {
                 int r_out = abs(startposY-y);
                 int r_in = r_out - 2*thickness;
                 if(r_in <= 0) r_in = 0;
                 int midx = abs(startposX-x);
                 int midy = abs(startposY-y);
+                GLUquadric *q = gluNewQuadric();
+                glPushMatrix();
+                    glTranslatef(midx,midy,0.0f);
+                    gluDisk(q,r_in,r_out,128,8);
+                glPopMatrix();
                 //drawcircle
                 break;
+            }
             case 4:
                 //drawpoly
                 break;
@@ -78,9 +86,10 @@ void mouse_func(int button, int state, int x, int y) {
                 //texting
                 break;
             case 6:
-                _67s.push_back(make_pair(x,y));
+                _67s.push_back(std::make_pair(x,y));
                 break;
         }
+        mode = 0;
     }
 }
 
@@ -173,8 +182,8 @@ int main(int argc, char **argv) {
     glutAddMenuEntry("67"     , 6);
 
     size_m = glutCreateMenu(size_func);
-    for(int i = 0;i < 40;i++) {
-        glutAddMenuEntry("0"+i ,i);
+    for(int i = 1;i < 40;i++) {
+        glutAddMenuEntry(std::to_string(i).c_str() ,i);
     }
 
     top_m = glutCreateMenu(top_menu_func);
