@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <GL/freeglut.h>
-
+#include <cstring>
 
 #define  SIZEX 1000
 #define  SIZEY 1000
@@ -29,12 +29,101 @@ int premode = 1;
 int startposX = 0,startposY = 0;
 float thickness = 8;
 bool fullfilled = 0;
-float color_[3] = {1.0f,1.0f,1.0f}; //rgb
-std::vector<std::pair<int,int> > _67s;
+float color_[3] = {0.0f,0.0f,0.0f}; //rgb
+struct Six_seven {
+    std::pair<int,int> pos;
+    float color[3] = {0,0,0};
+    float scale = 0.4;
+    float thickness = 8;
+};
+std::vector<Six_seven > _67s;
+bool highlow_67 = 1;
+int six_high = 0,seven_high = 0;
+std::vector<GLubyte> canva;
+int curx = 0,cury = 0;
+void drawing(int x,int y) {
+    glColor3fv(color_);
+    glLineWidth(thickness);
+    switch(mode) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            //drawline
+            glBegin(GL_LINES);
+                glVertex2f(startposX,startposY);
+                glVertex2f(x,y);
+            glEnd();
+            break;
+        case 3: {
+            //drawcircle
+            int r_out = (int)(hypot(x - startposX, y - startposY) / 2);
+            int r_in = r_out - thickness;
+            if(r_in <= 0) r_in = 0;
+            int midx = (startposX+x)/2;
+            int midy = (startposY+y)/2;
+            GLUquadric *q = gluNewQuadric();
+            glPushMatrix();
+                glTranslatef(midx,midy,0.0f);
+                gluDisk(q,r_in,r_out,128,8);
+            glPopMatrix();
+            gluDeleteQuadric(q);
+            break;
+        }
+        case 4:
+            //drawpoly
+            break;
+        case 5:
+            //texting
+            break;            
+    }
+}
+ 
+// main memory -> back buffer
+void restoreCanvas() {
+    glRasterPos2i(0, 0);
+    glDrawPixels(width, hight, GL_RGBA, GL_UNSIGNED_BYTE, canva.data());
+}
+ 
+// back buffer -> main memory
+void saveCanvas() {
+    glReadBuffer(GL_BACK);
+    glReadPixels(0, 0, width, hight, GL_RGBA, GL_UNSIGNED_BYTE, canva.data());
+}
+
+void drawStroke(float x, float y, const char *s, float scale) {
+    glPushMatrix();
+        glTranslatef(x, y, 0);
+        glScalef(scale, scale, 1);
+        for (; *s; ++s) glutStrokeCharacter(GLUT_STROKE_ROMAN, *s);
+    glPopMatrix();
+}
+
+void draw67_() {
+    for(auto i:_67s) {
+        glLineWidth(i.thickness);
+        glColor3fv(i.color);
+        float cw = 104.76f * i.scale; 
+        drawStroke(i.pos.first-cw-5,i.pos.second+six_high,"6",i.scale);
+        drawStroke(i.pos.first+5,i.pos.second+seven_high,"7",i.scale);
+    }
+}
+void bakecanva(int x,int y) {
+    glDrawBuffer(GL_BACK);
+    glClear(GL_COLOR_BUFFER_BIT);
+    restoreCanvas();
+    drawing(x,y);
+    saveCanvas();
+}
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
-    glFlush();
+    restoreCanvas();
+    if(mode > 0 && mode < 4)
+        drawing(curx,cury);
+    draw67_();
+    glutSwapBuffers();
 }
 
 void keyboard(unsigned char key, int x, int y) {
@@ -43,50 +132,40 @@ void keyboard(unsigned char key, int x, int y) {
 
 void reshape_(int new_width, int new_hight) {
     uiX = new_width;
+    int old_h = hight,old_w = width;
+    hight = new_hight;width = new_width;
+    std::vector<GLubyte> old = canva;
+
+    canva.assign((size_t)hight*width*4,255);
+    for (int y = 0; y < old_h; ++y) {
+        if (y < 0 || y >= hight) continue;
+        memcpy(&canva[(size_t)y * width * 4], &old[(size_t)y * old_w * 4],
+               (size_t)std::min(old_w, width) * 4);
+    }
+
+    glViewport(0, 0, width, hight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, width, 0, hight);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void mouse_func(int button, int state, int x, int y) {
+    y = hight-1-y;
     if(button != GLUT_LEFT_BUTTON) return;
     if(state == GLUT_DOWN) {
         mode = premode;
-        startposX = x;
-        startposY = y;
+        startposX = curx = x;
+        startposY = cury = y;
     } else {
         switch(mode) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                //drawline
-                glColor3f(color_[0],color_[1],color_[2]);
-                glBegin(GL_LINES);
-                    glVertex2f(startposX,startposY);
-                    glVertex2f(x,y);
-                glEnd(GL_LINES);
-                break;
-            case 3: {
-                int r_out = abs(startposY-y);
-                int r_in = r_out - 2*thickness;
-                if(r_in <= 0) r_in = 0;
-                int midx = abs(startposX-x);
-                int midy = abs(startposY-y);
-                GLUquadric *q = gluNewQuadric();
-                glPushMatrix();
-                    glTranslatef(midx,midy,0.0f);
-                    gluDisk(q,r_in,r_out,128,8);
-                glPopMatrix();
-                //drawcircle
-                break;
-            }
-            case 4:
-                //drawpoly
-                break;
-            case 5:
-                //texting
+            case 1: case 2: case 3: case 4: 
+                bakecanva(x,y);
                 break;
             case 6:
-                _67s.push_back(std::make_pair(x,y));
+                _67s.push_back({std::make_pair(x,y),
+                    {color_[0],color_[1],color_[2]},thickness/8.0f*0.4f,thickness});
                 break;
         }
         mode = 0;
@@ -94,7 +173,8 @@ void mouse_func(int button, int state, int x, int y) {
 }
 
 void motion_func(int x, int y) {
-
+    curx = x;
+    cury = hight-1-y;
 }
 
 void color_func(int value) {
@@ -115,7 +195,10 @@ void color_func(int value) {
 }
 
 void file_func(int value) {
-
+    switch (value) {
+        case 3: canva.assign((size_t)hight*width*4,255); _67s.clear(); glutPostRedisplay(); break;
+        case 4: exit(0);
+    }
 }
 
 void draw_type(int value) {
@@ -125,10 +208,9 @@ void size_func(int value) {
     thickness = value;
 }
 
-bool highlow_67 = 0;
-int six_high = 0,seven_high = 0;
 void timer(int) {
-    if(six_high >= 20) highlow_67 = !highlow_67;
+    if(six_high >= 30) highlow_67 = 1;
+    if(six_high <= -30) highlow_67 = 0;
     if(highlow_67) {
         six_high--;
         seven_high++;
@@ -150,7 +232,9 @@ int main(int argc, char **argv) {
     glutCreateWindow("handout");
     glutKeyboardFunc(keyboard);
     glClearColor(0.0, 0.0, 0.0, 1.0);
-
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    canva.assign((size_t)hight*width*4,255);
     //self edit stuff
     glutDisplayFunc(display);
 

@@ -25,7 +25,7 @@ void display(void)
 //Callback for the IDLE event
 void spinDisplay (void)
 {
-    spin = spin + 0.005;
+    spin = spin + 2;
     if (spin > 360.0)
 	spin = spin - 360.0;
     display();
@@ -68,8 +68,8 @@ int main(int argc, char** argv)
 
 	glutInit(&argc,argv);
 	//change the following instruction to show the effects.
-	//glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);	
-	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);	
+	//glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
 
 	glutCreateWindow(argv[0]);
     myinit ();
