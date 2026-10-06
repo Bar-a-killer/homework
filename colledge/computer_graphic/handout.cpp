@@ -25,6 +25,7 @@ int premode = 1;
    4 polygon mode
    5 text mode
    6 67 mode
+   7 eraser
 ********************/
 int startposX = 0,startposY = 0;
 float thickness = 8;
@@ -41,14 +42,37 @@ bool highlow_67 = 1;
 int six_high = 0,seven_high = 0;
 std::vector<GLubyte> canva;
 int curx = 0,cury = 0;
+std::string text_buffer;
+bool texting = 0;
+float bgcolor[3] = {255,255,255};
+
+void drawStroke(float x, float y, const char *s, float scale) {
+    glPushMatrix();
+        glTranslatef(x, y, 0);
+        glScalef(scale, scale, 1);
+        for (; *s; ++s) glutStrokeCharacter(GLUT_STROKE_ROMAN, *s);
+    glPopMatrix();
+}
+
 void drawing(int x,int y) {
     glColor3fv(color_);
     glLineWidth(thickness);
     switch(mode) {
         case 0:
             break;
-        case 1:
+        case 1: {
+            glBegin(GL_LINES);
+                glVertex2f(startposX,startposY);
+                glVertex2f(x,y);
+            glEnd();
+            GLUquadric *q = gluNewQuadric();
+            glPushMatrix();
+                glTranslatef(x,y,0.0f);
+                gluDisk(q,0,thickness/2,128,8);
+            glPopMatrix();
+            gluDeleteQuadric(q);
             break;
+        }
         case 2:
             //drawline
             glBegin(GL_LINES);
@@ -76,7 +100,23 @@ void drawing(int x,int y) {
             break;
         case 5:
             //texting
-            break;            
+            drawStroke(startposX, startposY, text_buffer.c_str(), thickness/8.0f*0.4f);
+            break;           
+        case 7: {
+            glColor3fv(bgcolor);
+            glBegin(GL_LINES);
+                glVertex2f(startposX,startposY);
+                glVertex2f(x,y);
+            glEnd();
+            GLUquadric *q = gluNewQuadric();
+            glPushMatrix();
+                glTranslatef(x,y,0.0f);
+                gluDisk(q,0,thickness/2,128,8);
+            glPopMatrix();
+            gluDeleteQuadric(q);
+            break;
+        }
+
     }
 }
  
@@ -90,14 +130,6 @@ void restoreCanvas() {
 void saveCanvas() {
     glReadBuffer(GL_BACK);
     glReadPixels(0, 0, width, hight, GL_RGBA, GL_UNSIGNED_BYTE, canva.data());
-}
-
-void drawStroke(float x, float y, const char *s, float scale) {
-    glPushMatrix();
-        glTranslatef(x, y, 0);
-        glScalef(scale, scale, 1);
-        for (; *s; ++s) glutStrokeCharacter(GLUT_STROKE_ROMAN, *s);
-    glPopMatrix();
 }
 
 void draw67_() {
@@ -127,7 +159,21 @@ void display(void) {
 }
 
 void keyboard(unsigned char key, int x, int y) {
-    if(key=='Q' || key=='q') exit(0);
+    if(texting) {
+        if(key < 127 && key >= 32) {
+            text_buffer += key;
+        } 
+        if(key == 8 || key == 127) {
+            text_buffer.pop_back();
+        } 
+        else {
+            bakecanva(x,y);
+            texting = 0;
+            return;
+        }
+        drawing(x,y);
+    }
+    else if(key=='Q' || key=='q') exit(0);
 }
 
 void reshape_(int new_width, int new_hight) {
@@ -175,6 +221,11 @@ void mouse_func(int button, int state, int x, int y) {
 void motion_func(int x, int y) {
     curx = x;
     cury = hight-1-y;
+    if(mode == 1 || mode == 7) {
+        bakecanva(curx,cury);
+        startposX = curx;
+        startposY = cury;
+    }
 }
 
 void color_func(int value) {
@@ -264,6 +315,7 @@ int main(int argc, char **argv) {
     glutAddMenuEntry("Polygon", 4);
     glutAddMenuEntry("Text"   , 5);
     glutAddMenuEntry("67"     , 6);
+    glutAddMenuEntry("Eraser" , 7);
 
     size_m = glutCreateMenu(size_func);
     for(int i = 1;i < 40;i++) {
