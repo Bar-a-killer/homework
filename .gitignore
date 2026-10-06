@@ -1,19 +1,39 @@
-﻿*.exe
+wap 檔
+[._]*.s[a-v][a-z]
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+# session
+Session.vim
+Sessionx.vim
+# netrw 歷史
+.netrwhist
+# 備份檔 / persistent undo
+*~
+[._]*.un~
+# ctags
+tags
+
+# ===== C / C++ 編譯產物 =====
+*.exe
 *.o
-*.out
 *.obj
+*.out
+*.a
+*.so
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.tlog
+*.d
+
+# ===== CMake / Visual Studio =====
 .vs/
 bin/
 obj/
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.toc
-*.xdv
-*.synctex.gz
-
-# CMake / Visual Studio build output
 build/
 build-*/
 out/
@@ -26,13 +46,31 @@ compile_commands.json
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
-*.pdb
-*.ilk
-*.tlog
-*.lib
-*.exp
 
-# Editor swap / temp files
-*.swp
-*.swo
-*~
+# ===== Rust =====
+target/
+
+# ===== Python / Jupyter =====
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ===== LaTeX =====
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.toc
+*.xdv
+*.synctex.gz
+
+# ===== Verilog 模擬波形 =====
+*.vcd
+
+# ===== VS Code 外掛 (Competitive Programming Helper) =====
+.cph/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
