@@ -152,7 +152,7 @@ void bakecanva(int x,int y) {
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
     restoreCanvas();
-    if(mode > 0 && mode < 4)
+    if(mode > 0 && mode < 6)
         drawing(curx,cury);
     draw67_();
     glutSwapBuffers();
@@ -163,15 +163,15 @@ void keyboard(unsigned char key, int x, int y) {
         if(key < 127 && key >= 32) {
             text_buffer += key;
         } 
-        if(key == 8 || key == 127) {
-            text_buffer.pop_back();
+        else if(key == 8 || key == 127) {
+            if(!text_buffer.empty()) text_buffer.pop_back();
         } 
         else {
             bakecanva(x,y);
             texting = 0;
+            mode = 0;
             return;
         }
-        drawing(x,y);
     }
     else if(key=='Q' || key=='q') exit(0);
 }
@@ -206,9 +206,13 @@ void mouse_func(int button, int state, int x, int y) {
         startposY = cury = y;
     } else {
         switch(mode) {
-            case 1: case 2: case 3: case 4: 
+            case 1: case 2: case 3: case 4: case 7:
                 bakecanva(x,y);
                 break;
+            case 5:
+                texting = 1;
+                text_buffer.clear();
+                return;
             case 6:
                 _67s.push_back({std::make_pair(x,y),
                     {color_[0],color_[1],color_[2]},thickness/8.0f*0.4f,thickness});
