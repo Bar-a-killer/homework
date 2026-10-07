@@ -12,7 +12,7 @@
 #define  SIZEY 1000
 
 
-int top_m, color_m, file_m, type_m, size_m;
+int top_m, color_m, file_m, type_m, size_m, full_m, poly_m, font_m, grid_m;
 int hight=1024, width=1024;
 int mode = 0;
 int uiY = 100,uiX = width;
@@ -38,13 +38,30 @@ struct Six_seven {
     float thickness = 8;
 };
 std::vector<Six_seven > _67s;
+std::vector<Six_seven > _67s_copy;
 bool highlow_67 = 1;
 int six_high = 0,seven_high = 0;
-std::vector<GLubyte> canva;
+std::vector<GLubyte> canva,canva_copy;
 int curx = 0,cury = 0;
 std::string text_buffer;
 bool texting = 0;
 float bgcolor[3] = {255,255,255};
+int poly_sides = 4;
+void* fonts[] = {
+    GLUT_BITMAP_8_BY_13,
+    GLUT_BITMAP_9_BY_15,
+    GLUT_BITMAP_TIMES_ROMAN_10,
+    GLUT_BITMAP_TIMES_ROMAN_24,
+    GLUT_BITMAP_HELVETICA_10,
+    GLUT_BITMAP_HELVETICA_12,
+    GLUT_BITMAP_HELVETICA_18,
+};
+void* text_font = GLUT_BITMAP_TIMES_ROMAN_24;
+bool show_grid = 1;
+void drawText(float x, float y, const char *s) {
+    glRasterPos2f(x, y);
+    for(; *s; ++s) glutBitmapCharacter(text_font, *s);
+}
 
 void drawStroke(float x, float y, const char *s, float scale) {
     glPushMatrix();
@@ -54,6 +71,24 @@ void drawStroke(float x, float y, const char *s, float scale) {
     glPopMatrix();
 }
 
+void drawGrid() {
+    int grid_size = 50;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glLineWidth(1);
+    glColor4f(0, 0, 0, 0.1f);
+    glBegin(GL_LINES);
+    for(int x = 0; x < width; x += grid_size) {
+        glVertex2f(x + 0.5f, 0);
+        glVertex2f(x + 0.5f, hight);
+    }
+    for(int y = 0; y < hight; y += grid_size) {
+        glVertex2f(0,     y + 0.5f);
+        glVertex2f(width, y + 0.5f);
+    }
+    glEnd();
+    glDisable(GL_BLEND);
+}
 void drawing(int x,int y) {
     glColor3fv(color_);
     glLineWidth(thickness);
@@ -85,6 +120,7 @@ void drawing(int x,int y) {
             int r_out = (int)(hypot(x - startposX, y - startposY) / 2);
             int r_in = r_out - thickness;
             if(r_in <= 0) r_in = 0;
+            if(fullfilled) r_in = 0;
             int midx = (startposX+x)/2;
             int midy = (startposY+y)/2;
             GLUquadric *q = gluNewQuadric();
@@ -95,12 +131,32 @@ void drawing(int x,int y) {
             gluDeleteQuadric(q);
             break;
         }
-        case 4:
+        case 4: {
             //drawpoly
+            float l = std::min(startposX, x), r = std::max(startposX, x);
+            float b = std::min(startposY, y), t = std::max(startposY, y);
+            std::vector<std::pair<float,float>> v;
+            if(poly_sides == 3) {                   
+                v = {{l,b}, {r,b}, {(l+r)/2, t}};
+            } else if(poly_sides == 4) {
+                v = {{l,b}, {r,b}, {r,t}, {l,t}};
+            } else {
+                float cx = (l+r)/2, cy = (b+t)/2;
+                float rx = (r-l)/2, ry = (t-b)/2;
+                for(int i = 0; i < poly_sides; i++) {
+                    constexpr float pi = 3.14159265358979323846f;
+                    float a = pi/2 + 2*pi*i/poly_sides;
+                    v.push_back({cx + rx*cos(a), cy + ry*sin(a)});
+                }
+            }
+            glBegin(fullfilled ? GL_POLYGON : GL_LINE_LOOP);
+            for(auto &p : v) glVertex2f(p.first, p.second);
+            glEnd();
             break;
+        }
         case 5:
             //texting
-            drawStroke(startposX, startposY, text_buffer.c_str(), thickness/8.0f*0.4f);
+            drawText(startposX, startposY, text_buffer.c_str());
             break;           
         case 7: {
             glColor3fv(bgcolor);
@@ -152,6 +208,7 @@ void bakecanva(int x,int y) {
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
     restoreCanvas();
+    if(show_grid) drawGrid();
     if(mode > 0 && mode < 6)
         drawing(curx,cury);
     draw67_();
@@ -181,11 +238,15 @@ void reshape_(int new_width, int new_hight) {
     int old_h = hight,old_w = width;
     hight = new_hight;width = new_width;
     std::vector<GLubyte> old = canva;
+    std::vector<GLubyte> old_copy = canva_copy;
 
     canva.assign((size_t)hight*width*4,255);
+    canva_copy.assign((size_t)hight*width*4,255);
     for (int y = 0; y < old_h; ++y) {
         if (y < 0 || y >= hight) continue;
         memcpy(&canva[(size_t)y * width * 4], &old[(size_t)y * old_w * 4],
+               (size_t)std::min(old_w, width) * 4);
+        memcpy(&canva_copy[(size_t)y * width * 4], &old_copy[(size_t)y * old_w * 4],
                (size_t)std::min(old_w, width) * 4);
     }
 
@@ -246,14 +307,28 @@ void color_func(int value) {
         case 3:
             color_[0] = color_[1] = 0;color_[2] = 1.0;
             break;
+        case 4:
+            color_[0] = color_[1] = color_[2] = 0;
+            break;
     }
 }
 
 void file_func(int value) {
     switch (value) {
-        case 3: canva.assign((size_t)hight*width*4,255); _67s.clear(); glutPostRedisplay(); break;
+        case 0: 
+            canva_copy = canva;
+            _67s_copy = _67s;
+            break;
+        case 1:
+            canva = canva_copy;
+            _67s = _67s_copy;
+            break;
+        case 3:
+            canva.assign((size_t)hight*width*4,255); _67s.clear(); glutPostRedisplay(); 
+            break;
         case 4: exit(0);
     }
+    glLoadIdentity();
 }
 
 void draw_type(int value) {
@@ -262,7 +337,19 @@ void draw_type(int value) {
 void size_func(int value) {
     thickness = value;
 }
-
+void full_func(int value) {
+    fullfilled = value;
+}
+void poly_func(int value) {
+    premode = 4;
+    poly_sides = value;
+}
+void font_func(int value) {
+    text_font = fonts[value];
+}
+void grid_func(int value) {
+    show_grid = value;
+}
 void timer(int) {
     if(six_high >= 30) highlow_67 = 1;
     if(six_high <= -30) highlow_67 = 0;
@@ -276,6 +363,7 @@ void timer(int) {
     glutPostRedisplay();
     glutTimerFunc(16, timer, 0);
 }
+
 void top_menu_func(int value) {}
 
 int main(int argc, char **argv) {
@@ -290,6 +378,7 @@ int main(int argc, char **argv) {
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     canva.assign((size_t)hight*width*4,255);
+    canva_copy.assign((size_t)hight*width*4,255);
     //self edit stuff
     glutDisplayFunc(display);
 
@@ -304,33 +393,58 @@ int main(int argc, char **argv) {
     glutAddMenuEntry("red"  , 1);
     glutAddMenuEntry("green", 2);
     glutAddMenuEntry("blue" , 3);
+    glutAddMenuEntry("black", 4);
 
     file_m = glutCreateMenu(file_func);
     glutAddMenuEntry("save" ,0);
     glutAddMenuEntry("load" ,1);
-    glutAddMenuEntry("blend",2);
     glutAddMenuEntry("clear",3);
     glutAddMenuEntry("quit" ,4);
+
+    poly_m = glutCreateMenu(poly_func);
+    glutAddMenuEntry("Triangle" , 3);
+    glutAddMenuEntry("Rectangle", 4);
+    glutAddMenuEntry("Pentagon" , 5);
+    glutAddMenuEntry("Hexagon"  , 6);
 
     type_m = glutCreateMenu(draw_type);  
     glutAddMenuEntry("Draw"   , 1);
     glutAddMenuEntry("Line"   , 2);
     glutAddMenuEntry("Circle" , 3);
-    glutAddMenuEntry("Polygon", 4);
+    glutAddSubMenu("Polygon", poly_m);
     glutAddMenuEntry("Text"   , 5);
     glutAddMenuEntry("67"     , 6);
     glutAddMenuEntry("Eraser" , 7);
 
     size_m = glutCreateMenu(size_func);
-    for(int i = 1;i < 40;i++) {
+    for(int i = 5;i < 30;i++) {
         glutAddMenuEntry(std::to_string(i).c_str() ,i);
     }
 
+    full_m = glutCreateMenu(full_func);
+    glutAddMenuEntry("On"  ,1);
+    glutAddMenuEntry("Off" ,0);
+
+    grid_m = glutCreateMenu(grid_func);
+    glutAddMenuEntry("On" , 1);
+    glutAddMenuEntry("Off", 0);
+
+    font_m = glutCreateMenu(font_func);
+    glutAddMenuEntry("8x13"          , 0);
+    glutAddMenuEntry("9x15"          , 1);
+    glutAddMenuEntry("Times Roman 10", 2);
+    glutAddMenuEntry("Times Roman 24", 3);
+    glutAddMenuEntry("Helvetica 10"  , 4);
+    glutAddMenuEntry("Helvetica 12"  , 5);
+    glutAddMenuEntry("Helvetica 18"  , 6);
     top_m = glutCreateMenu(top_menu_func);
     glutAddSubMenu("colors", color_m);
     glutAddSubMenu("type"  , type_m);
     glutAddSubMenu("Size"  , size_m);
     glutAddSubMenu("file"  , file_m); 
+    glutAddSubMenu("Fullfilled",full_m);
+    glutAddSubMenu("Grid"  , grid_m);
+    glutAddSubMenu("Font"  , font_m);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
     glutTimerFunc(16, timer, 0);

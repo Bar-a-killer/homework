@@ -52,13 +52,6 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 set(Examples
-    "draw"
-    "blend"
-    "menu"
-    "mouse_key"
-    "pix_rw_sample"
-    "simple"
-    "single_double_buffer"
     "handout"
 )
 
