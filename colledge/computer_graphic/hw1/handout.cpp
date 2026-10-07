@@ -41,7 +41,7 @@ std::vector<Six_seven > _67s;
 std::vector<Six_seven > _67s_copy;
 bool highlow_67 = 1;
 int six_high = 0,seven_high = 0;
-std::vector<GLubyte> canva,canva_copy;
+std::vector<GLubyte> canva,canva_copy,canva_idle;
 int curx = 0,cury = 0;
 std::string text_buffer;
 bool texting = 0;
@@ -327,6 +327,8 @@ void file_func(int value) {
             canva.assign((size_t)hight*width*4,255); _67s.clear(); glutPostRedisplay(); 
             break;
         case 4: exit(0);
+        case 5: 
+            canva = canva_idle;
     }
     glLoadIdentity();
 }
@@ -360,6 +362,7 @@ void timer(int) {
         six_high++;
         seven_high--;
     }
+    canva_idle = canva;
     glutPostRedisplay();
     glutTimerFunc(16, timer, 0);
 }
@@ -400,6 +403,7 @@ int main(int argc, char **argv) {
     glutAddMenuEntry("load" ,1);
     glutAddMenuEntry("clear",3);
     glutAddMenuEntry("quit" ,4);
+    glutAddMenuEntry("load auto save" ,5);
 
     poly_m = glutCreateMenu(poly_func);
     glutAddMenuEntry("Triangle" , 3);
