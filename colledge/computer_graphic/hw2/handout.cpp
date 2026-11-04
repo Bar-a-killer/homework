@@ -79,7 +79,6 @@ void make_node(int id  ,const char *name,
                float sx,float sy,float sz,
                float r ,float g ,float b ) {
     Node  *n = &parts[id];
-    int    i;
 
     n->name = name;
     n->joint_pos[0] = jx;
@@ -95,7 +94,7 @@ void make_node(int id  ,const char *name,
     n->color[0] = r;
     n->color[1] = g;
     n->color[2] = b;
-    for(i=0;i<3;i++) {
+    for(int i=0;i<3;i++) {
         n->rot[i].enabled = 0;
     }
 }
