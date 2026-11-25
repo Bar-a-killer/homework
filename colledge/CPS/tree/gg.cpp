@@ -25,7 +25,7 @@ int dfs1(int boss,int now) {
     if(deep[now] > rdeep[now]) {
         int run = rdeep[now] + high[now];
         int hunt = deep[now] + high[now];
-        return hunt - (hunt-run)%2;
+        return hunt - 1;
     } else {
         for(auto i: edge[now]) {
             if(i == boss) continue;
@@ -36,7 +36,7 @@ int dfs1(int boss,int now) {
     return -1000;
 }
 signed main() {
-    cin >> n >> u >> v;
+    cin >> n >> v >> u;
     for(int i = 0;i < n-1;i++) {
         int s,e;cin >> s >> e;
         edge[s].push_back(e);
